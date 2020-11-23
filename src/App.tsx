@@ -1,18 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { View } from "react-native";
-import { Mode, mode } from "./config";
+import { Data, mode } from "./@types/config";
 import { TopPage } from "./pages/TopPage";
 
 export const PersistContext = React.createContext({} as Data);
 
 // Window オブジェクトに myAPI（APIキー）が存在している
 const { myAPI } = window;
-type Data = {
-  text: string;
-  title: string;
-  mode: Mode;
-  setText: (text: string) => void;
-};
 
 const App: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -30,6 +24,11 @@ const App: React.FC = () => {
 
     setData({ ...data, ...init });
 
+    if (init.mode === mode.MDViewer) {
+      myAPI.getData((initData) => {
+        setData({ ...data, ...initData });
+      });
+    }
     setLoading(false);
   };
 

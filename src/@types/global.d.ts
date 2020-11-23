@@ -5,5 +5,8 @@ declare global {
 }
 
 export interface Sandbox {
-  initData: () => Promise<void | { text: string; title: string; mode: Mode }>;
+  initData: () => { text: string; title: string; mode: Mode };
+  mdToggle: () => {};
+  sendData: () => {};
+  getData: (listener: (data) => void) => {};
 }
