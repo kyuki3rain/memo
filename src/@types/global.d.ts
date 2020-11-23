@@ -7,6 +7,7 @@ declare global {
 export interface Sandbox {
   initData: () => { text: string; title: string; mode: Mode };
   mdToggle: () => {};
-  sendData: () => {};
-  getData: (listener: (data) => void) => {};
+  sendText: (text) => {};
+  onGetText: (listener: (event, text) => void) => void;
+  removeGetText: () => void;
 }

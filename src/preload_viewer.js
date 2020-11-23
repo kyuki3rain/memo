@@ -6,6 +6,10 @@ contextBridge.exposeInMainWorld("myAPI", {
     data = ipcRenderer.invoke("init-viewer-data");
     return data;
   },
-  getData: (listener) =>
-    ipcRenderer.on("get-data", (event, data) => listener(data)),
+  onGetText: (listener) => {
+    ipcRenderer.on("get-text", listener);
+  },
+  removeGetText: () => {
+    ipcRenderer.removeAllListeners("get-text");
+  },
 });

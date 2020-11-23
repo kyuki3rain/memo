@@ -3,22 +3,22 @@
  * @author Mient-jan Stelling + contributors
  */
 
-import React, { useMemo } from "react";
-import { Text, StyleSheet } from "react-native";
-import PropTypes from "prop-types";
-import parser from "./lib/parser";
-import getUniqueID from "./lib/util/getUniqueID";
-import hasParents from "./lib/util/hasParents";
-import openUrl from "./lib/util/openUrl";
-import tokensToAST from "./lib/util/tokensToAST";
-import renderRules from "./lib/renderRules";
-import AstRenderer from "./lib/AstRenderer";
-import MarkdownIt from "markdown-it";
-import removeTextStyleProps from "./lib/util/removeTextStyleProps";
-import { styles } from "./lib/styles";
-import { stringToTokens } from "./lib/util/stringToTokens";
-import FitImage from "react-native-fit-image";
-import textStyleProps from "./lib/data/textStyleProps";
+import React, {useMemo} from 'react';
+import {Text, StyleSheet} from 'react-native';
+import PropTypes from 'prop-types';
+import parser from './lib/parser';
+import getUniqueID from './lib/util/getUniqueID';
+import hasParents from './lib/util/hasParents';
+import openUrl from './lib/util/openUrl';
+import tokensToAST from './lib/util/tokensToAST';
+import renderRules from './lib/renderRules';
+import AstRenderer from './lib/AstRenderer';
+import MarkdownIt from 'markdown-it';
+import removeTextStyleProps from './lib/util/removeTextStyleProps';
+import {styles} from './lib/styles';
+import {stringToTokens} from './lib/util/stringToTokens';
+import FitImage from 'react-native-fit-image';
+import textStyleProps from './lib/data/textStyleProps';
 
 export {
   getUniqueID,
@@ -71,7 +71,7 @@ const getStyle = (mergeStyle, style) => {
   }
 
   Object.keys(useStyles).forEach((value) => {
-    useStyles["_VIEW_SAFE_" + value] = removeTextStyleProps(useStyles[value]);
+    useStyles['_VIEW_SAFE_' + value] = removeTextStyleProps(useStyles[value]);
   });
 
   return StyleSheet.create(useStyles);
@@ -87,27 +87,27 @@ const getRenderer = (
   topLevelMaxExceededItem,
   allowedImageHandlers,
   defaultImageHandler,
-  debugPrintTree
+  debugPrintTree,
 ) => {
   if (renderer && rules) {
     console.warn(
-      "react-native-markdown-display you are using renderer and rules at the same time. This is not possible, props.rules is ignored"
+      'react-native-markdown-display you are using renderer and rules at the same time. This is not possible, props.rules is ignored',
     );
   }
 
   if (renderer && style) {
     console.warn(
-      "react-native-markdown-display you are using renderer and style at the same time. This is not possible, props.style is ignored"
+      'react-native-markdown-display you are using renderer and style at the same time. This is not possible, props.style is ignored',
     );
   }
 
   // these checks are here to prevent extra overhead.
   if (renderer) {
-    if (!(typeof renderer === "function") || renderer instanceof AstRenderer) {
+    if (!(typeof renderer === 'function') || renderer instanceof AstRenderer) {
       return renderer;
     } else {
       throw new Error(
-        "Provided renderer is not compatible with function or AstRenderer. please change"
+        'Provided renderer is not compatible with function or AstRenderer. please change',
       );
     }
   } else {
@@ -124,7 +124,7 @@ const getRenderer = (
       topLevelMaxExceededItem,
       allowedImageHandlers,
       defaultImageHandler,
-      debugPrintTree
+      debugPrintTree,
     );
   }
 };
@@ -143,13 +143,13 @@ const Markdown = React.memo(
     maxTopLevelChildren = null,
     topLevelMaxExceededItem = <Text key="dotdotdot">...</Text>,
     allowedImageHandlers = [
-      "data:image/png;base64",
-      "data:image/gif;base64",
-      "data:image/jpeg;base64",
-      "https://",
-      "http://",
+      'data:image/png;base64',
+      'data:image/gif;base64',
+      'data:image/jpeg;base64',
+      'https://',
+      'http://',
     ],
-    defaultImageHandler = "https://",
+    defaultImageHandler = 'https://',
     debugPrintTree = false,
   }) => {
     const momoizedRenderer = useMemo(
@@ -164,7 +164,7 @@ const Markdown = React.memo(
           topLevelMaxExceededItem,
           allowedImageHandlers,
           defaultImageHandler,
-          debugPrintTree
+          debugPrintTree,
         ),
       [
         maxTopLevelChildren,
@@ -177,13 +177,13 @@ const Markdown = React.memo(
         allowedImageHandlers,
         defaultImageHandler,
         debugPrintTree,
-      ]
+      ],
     );
 
     const momoizedParser = useMemo(() => markdownit, [markdownit]);
 
     return parser(children, momoizedRenderer.render, momoizedParser);
-  }
+  },
 );
 
 Markdown.propTypes = {
@@ -203,20 +203,20 @@ Markdown.propTypes = {
       return;
     }
 
-    if (typeof prop === "object") {
+    if (typeof prop === 'object') {
       invalidProps = Object.keys(prop).filter(
-        (key) => typeof prop[key] !== "function"
+        (key) => typeof prop[key] !== 'function',
       );
     }
 
-    if (typeof prop !== "object") {
+    if (typeof prop !== 'object') {
       return new Error(
-        `Invalid prop \`${propName}\` supplied to \`${componentName}\`. Must be of shape {[index:string]:function} `
+        `Invalid prop \`${propName}\` supplied to \`${componentName}\`. Must be of shape {[index:string]:function} `,
       );
     } else if (invalidProps.length > 0) {
       return new Error(
         `Invalid prop \`${propName}\` supplied to \`${componentName}\`. These ` +
-          `props are not of type function \`${invalidProps.join(", ")}\` `
+          `props are not of type function \`${invalidProps.join(', ')}\` `,
       );
     }
   },

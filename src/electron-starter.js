@@ -4,7 +4,6 @@ const path = require("path");
 const url = require("url");
 const fs = require("fs");
 
-let mainWindow = null;
 let isMD = false;
 let viewer = null;
 let text = null;
@@ -12,7 +11,7 @@ let text = null;
 function createWindow(text, title, mode) {
   // Create the browser window.
   path_name = mode === "NormalEditor" ? "editor" : "viewer";
-  mainWindow = new BrowserWindow({
+  let mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
@@ -39,11 +38,6 @@ function createWindow(text, title, mode) {
 
   // Open the DevTools.
 
-  // Emitted when the window is closed.
-  mainWindow.on("closed", function () {
-    app.quit();
-  });
-
   return mainWindow;
 }
 
@@ -52,7 +46,12 @@ app.on("ready", () => {
     if (err) throw err;
 
     text = data;
-    createWindow(text, "title", "NormalEditor");
+    let window = createWindow(text, "title", "NormalEditor");
+
+    // Emitted when the window is closed.
+    window.on("closed", function () {
+      app.quit();
+    });
 
     ipcMain.handle("init-editor-data", () => {
       return {
@@ -77,10 +76,10 @@ app.on("ready", () => {
         viewer = null;
       }
     });
-    ipcMain.handle("send-data", (data) => {
-      isMD = !isMD;
-      if (isMD && viewer != null) {
-        viewer.webContents.send("get-data", data);
+    console.log(isMD);
+    ipcMain.handle("send-text", (event, text) => {
+      if (isMD && viewer !== null) {
+        viewer.webContents.send("get-text", text);
       }
     });
   });

@@ -10,5 +10,5 @@ contextBridge.exposeInMainWorld("myAPI", {
   mdToggle: () => {
     ipcRenderer.invoke("md-toggle");
   },
-  sendData: (data) => ipcRenderer.send("send-data", data),
+  sendText: (text) => ipcRenderer.invoke("send-text", text),
 });

@@ -1,7 +1,7 @@
 export const mode = {
   NormalEditor: "NormalEditor",
   MDEditor: "MDEditor",
-  MDViewer: "EMDViewer",
+  MDViewer: "MDViewer",
 } as const;
 
 export type Mode = typeof mode[keyof typeof mode]; // 'r' | 'w' | 'x'

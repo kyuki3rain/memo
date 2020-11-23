@@ -24,23 +24,29 @@ const App: React.FC = () => {
 
     setData({ ...data, ...init });
 
-    if (init.mode === mode.MDViewer) {
-      myAPI.getData((initData) => {
-        setData({ ...data, ...initData });
-      });
-    }
     setLoading(false);
+  };
+
+  const getText = (event, text) => {
+    setData({ ...data, text });
   };
 
   useEffect(() => {
     initData();
   }, []);
+  useEffect(() => {
+    if (data.mode === mode.MDViewer) {
+      myAPI.onGetText(getText);
+      return () => myAPI.removeGetText();
+    }
+  }, [getText]);
 
   return !loading ? (
     <PersistContext.Provider
       value={{
         ...data,
         setText: (text) => {
+          myAPI.sendText(text);
           setData({ ...data, text });
         },
       }}
